@@ -1,6 +1,6 @@
 <?php
 
-namespace Jxlwqq\EnvManager;
+namespace Liuhelong\laravelAdmin\EnvManager;
 
 use Illuminate\Support\ServiceProvider;
 
