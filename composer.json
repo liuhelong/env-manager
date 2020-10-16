@@ -26,7 +26,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Jxlwqq\\laravelAdmin\\EnvManager\\EnvManagerServiceProvider"
+                "liuhelong\\laravelAdmin\\EnvManager\\EnvManagerServiceProvider"
             ]
 
         }
