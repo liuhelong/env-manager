@@ -47,23 +47,7 @@ class Env extends Model
     public function save(array $options = [])
     {
         $data = $this->getAttributes();
-
-        return $this->setEnv($data['key'], $data['value']);
-    }
-
-    /**
-     * @param $id
-     * @return bool|null|void
-     */
-    public function deleteEnv($id)
-    {
-        $ids = explode(',', $id);
-        $data = $this->getEnv();
-        foreach ($ids as $val) {
-            $index = array_search($val, array_column($data, 'id'));
-            unset($data[$index]);
-        }
-        return $this->saveEnv($data);
+        return $this->setEnv($data['key'], $data['value'], $data['remark']);
     }
 
     /**
@@ -82,7 +66,8 @@ class Env extends Model
             }
             $entry = explode("=", $one, 2);
             if (!empty($entry[0])) {
-                $array[] = ['id' => $k + 1, 'key' => $entry[0], 'value' => isset($entry[1]) ? $entry[1] : null];
+				$remark = explode("#", $entry[1], 2);
+                $array[] = ['id' => $k + 1, 'key' => $entry[0], 'value' => trim($remark[0]??($entry[1]??null)) , 'remark'=> $remark[1]??null];
             }
         }
         if (empty($id)) {
@@ -99,14 +84,15 @@ class Env extends Model
      * @param $value
      * @return bool
      */
-    private function setEnv($key, $value)
+    private function setEnv($key, $value,$remark)
     {
         $array = $this->getEnv();
         $index = array_search($key, array_column($array, 'key'));
         if ($index !== false) {
             $array[$index]['value'] = $value; // 更新
+            $array[$index]['remark'] = $remark; 
         } else {
-            array_push($array, ['key' => $key, 'value' => $value]); // 新增
+            array_push($array, ['key' => $key, 'value' => $value, 'remark' => $remark]); // 新增
         }
         return $this->saveEnv($array);
     }
@@ -126,7 +112,7 @@ class Env extends Model
                 if (preg_match('/\s/', $env['value']) > 0 && (strpos($env['value'], '"') > 0 && strpos($env['value'], '"', -0) > 0)) {
                     $env['value'] = '"'.$env['value'].'"';
                 }
-                $newArray[$i] = $env['key']."=".$env['value'];
+                $newArray[$i] = $env['key']."=".$env['value']."#".$env['remark'];
                 $i++;
             }
             $newArray = implode("\n", $newArray);
