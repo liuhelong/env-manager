@@ -12,7 +12,7 @@
 ## Installation
 
 ```bash
-composer require jxlwqq/env-manager
+composer require liuhelong/laravel-admin-env-manager
 
 # If you want to add a link entry in the left menu, use the following command to import
 php artisan admin:import env-manager
