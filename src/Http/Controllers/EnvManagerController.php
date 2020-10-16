@@ -1,6 +1,6 @@
 <?php
 
-namespace Jxlwqq\EnvManager\Http\Controllers;
+namespace Liuhelong\laravelAdmin\EnvManager\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
@@ -9,25 +9,18 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Show;
-use Jxlwqq\EnvManager\Env;
+use Liuhelong\laravelAdmin\EnvManager\Env;
 
 
 class EnvManagerController extends Controller
 {
     use HasResourceActions;
 
-    private $model;
-
-    public function __construct()
-    {
-        $this->model = new Env();
-    }
-
     public function index(Content $content)
     {
         return $content
-            ->header('Title')
-            ->description('Description')
+            ->header('核心配置')
+            ->description('请谨慎修改/删除')
             ->body($this->grid());
     }
 
@@ -43,7 +36,7 @@ class EnvManagerController extends Controller
     {
         return $content
             ->header('Detail')
-            ->description('description')
+            ->description('请谨慎修改/删除')
             ->body($this->detail($key));
     }
 
@@ -56,8 +49,8 @@ class EnvManagerController extends Controller
      */
     public function edit($key, Content $content)
     {
-        $content->header('Title');
-        $content->description('Description');
+        $content->header('核心配置');
+        $content->description('请谨慎修改/删除');
         $content->body($this->form()->edit($key));
         return $content;
     }
@@ -85,9 +78,10 @@ class EnvManagerController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid($this->model);
+        $grid = new Grid(new Env());
         $grid->key();
         $grid->value();
+        $grid->column('remark',__('laravel_admin.Remark'));
         return $grid;
     }
 
@@ -99,7 +93,8 @@ class EnvManagerController extends Controller
      */
     protected function detail($key)
     {
-        $show = new Show($this->model->findOrFail($key));
+        $env = new Env();
+        $show = new Show($env->findOrFail($key));
 
         $show->key('Key');
         $show->value('Value');
@@ -109,36 +104,12 @@ class EnvManagerController extends Controller
 
     protected function form()
     {
-        $form = new Form($this->model);
-        $form->text('key', 'Key');
-        $form->text('value', 'Value');
+        $form = new Form(new Env());
+        $form->display('key', __('laravel_admin.Key'));
+        $form->text('value', __('laravel_admin.Value'));
+        $form->text('remark',__('laravel_admin.Remark'));
         return $form;
     }
 
-
-    /**
-     * Destroy data
-     *
-     * @param $id
-     *
-     * @return mixed
-     */
-    public function destroy($id)
-    {
-        if ($this->model->deleteEnv($id)) {
-            $data = [
-                'status' => true,
-                'message' => trans('admin.delete_succeeded'),
-            ];
-        } else {
-
-            $data = [
-                'status' => false,
-                'message' => trans('admin.delete_failed'),
-            ];
-        }
-
-        return response()->json($data);
-    }
 
 }
