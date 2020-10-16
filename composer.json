@@ -3,7 +3,7 @@
     "description": "Env Manager for Laravel-admin",
     "type": "library",
     "keywords": ["laravel-admin", "extension"],
-    "homepage": "https://github.com/liuhelong/env-manager",
+    "homepage": "https://github.com/liuhelong/laravel-admin-env-manager",
     "license": "MIT",
     "authors": [
         {
