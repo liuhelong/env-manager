@@ -1,14 +1,14 @@
 {
-    "name": "jxlwqq/env-manager",
+    "name": "liuhelong/laravel-admin-env-manager",
     "description": "Env Manager for Laravel-admin",
     "type": "library",
     "keywords": ["laravel-admin", "extension"],
-    "homepage": "https://github.com/jxlwqq/env-manager",
+    "homepage": "https://github.com/liuhelong/env-manager",
     "license": "MIT",
     "authors": [
         {
-            "name": "jxlwqq",
-            "email": "jxlwqq@gmail.com"
+            "name": "goatherd",
+            "email": "854583481@qq.com"
         }
     ],
     "require": {
@@ -20,13 +20,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Jxlwqq\\EnvManager\\": "src/"
+            "Liuhelong\\laravelAdmin\\EnvManager\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Jxlwqq\\EnvManager\\EnvManagerServiceProvider"
+                "Jxlwqq\\laravelAdmin\\EnvManager\\EnvManagerServiceProvider"
             ]
 
         }
